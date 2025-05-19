@@ -16,7 +16,15 @@
     h1 {
       text-align: center;
       color: #6d4c41;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+    }
+    .search-box {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
     .file-entry {
       background: #fff8e1;
@@ -30,7 +38,7 @@
       font-size: 1.25rem;
       color: #5d4037;
     }
-    .file-meta {
+    .file-meta, .file-description {
       font-size: 0.95rem;
       color: #6d4c41;
       margin-bottom: 0.5rem;
@@ -38,11 +46,6 @@
     .file-meta span {
       display: inline-block;
       margin-right: 1rem;
-    }
-    .file-description {
-      font-size: 0.95rem;
-      color: #4e342e;
-      margin-bottom: 0.5rem;
     }
     .download-link a {
       display: inline-block;
@@ -56,49 +59,113 @@
     .download-link a:hover {
       background: #5d4037;
     }
+    .pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .pagination button {
+      margin: 0 4px;
+      padding: 6px 12px;
+      border: none;
+      background: #d7ccc8;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background: #6d4c41;
+      color: white;
+    }
   </style>
 </head>
 <body>
   <h1>📁 ไฟล์ธรรมะที่ได้รับบริจาค</h1>
+  <input type="text" id="search-box" class="search-box" placeholder="ค้นหาไฟล์...">
   <div id="file-list">กำลังโหลดข้อมูล...</div>
+  <div class="pagination" id="pagination"></div>
 
   <script>
+    let data = [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
     const fileList = document.getElementById('file-list');
+    const pagination = document.getElementById('pagination');
+    const searchBox = document.getElementById('search-box');
 
-    fetch('donations.json?v=' + new Date().getTime())  // ป้องกัน cache
-      .then(response => {
-        if (!response.ok) throw new Error('โหลด JSON ไม่สำเร็จ');
-        return response.json();
-      })
-      .then(data => {
-        fileList.innerHTML = '';
+    function renderFileList(files) {
+      fileList.innerHTML = '';
+      const start = (currentPage - 1) * itemsPerPage;
+      const paginated = files.slice(start, start + itemsPerPage);
 
-        data.forEach(file => {
-          const icon = file.type === 'pdf' ? '📄' : file.type === 'mp3' ? '🎧' : file.type === 'mp4' ? '🎞️' : '🗂️';
+      if (paginated.length === 0) {
+        fileList.innerHTML = '<p>ไม่พบไฟล์ที่ค้นหา</p>';
+        pagination.innerHTML = '';
+        return;
+      }
 
-          const html = `
-            <div class="file-entry">
-              <h2>${icon} ${file.title}</h2>
-              <div class="file-description">${file.description || ''}</div>
-              <div class="file-meta">
-                <span><strong>ไฟล์:</strong> ${file.filename}</span>
-                <span><strong>ประเภท:</strong> ${file.type.toUpperCase()}</span>
-                <span><strong>ขนาด:</strong> ${file.filesize}</span>
-                ${file.pages ? `<span><strong>จำนวนหน้า:</strong> ${file.pages}</span>` : ''}
-                <span><strong>ผู้บริจาค:</strong> ${file.donor}</span>
-              </div>
-              <div class="download-link">
-                <a href="${file.url}" target="_blank" download>⬇️ ดาวน์โหลด</a>
-              </div>
+      paginated.forEach(file => {
+        const icon = file.type === 'pdf' ? '📄' : file.type === 'mp3' ? '🎧' : file.type === 'mp4' ? '🎞️' : '🗂️';
+        const html = `
+          <div class="file-entry">
+            <h2>${icon} ${file.title}</h2>
+            <div class="file-description">${file.description || ''}</div>
+            <div class="file-meta">
+              <span><strong>ไฟล์:</strong> ${file.filename}</span>
+              <span><strong>ประเภท:</strong> ${file.type.toUpperCase()}</span>
+              <span><strong>ขนาด:</strong> ${file.filesize}</span>
+              ${file.pages ? `<span><strong>จำนวนหน้า:</strong> ${file.pages}</span>` : ''}
+              <span><strong>ผู้บริจาค:</strong> ${file.donor}</span>
             </div>
-          `;
-          fileList.innerHTML += html;
-        });
-      })
-      .catch(error => {
-        console.error('เกิดข้อผิดพลาด:', error);
-        fileList.innerHTML = '<p style="color:red;">ไม่สามารถโหลดข้อมูลได้</p>';
+            <div class="download-link">
+              <a href="${file.url}" target="_blank" download>⬇️ ดาวน์โหลด</a>
+            </div>
+          </div>
+        `;
+        fileList.innerHTML += html;
       });
+    }
+
+    function renderPagination(totalItems) {
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      pagination.innerHTML = '';
+      for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.classList.toggle('active', i === currentPage);
+        btn.addEventListener('click', () => {
+          currentPage = i;
+          update();
+        });
+        pagination.appendChild(btn);
+      }
+    }
+
+    function update() {
+      const keyword = searchBox.value.toLowerCase();
+      const filtered = data.filter(file =>
+        file.title.toLowerCase().includes(keyword) ||
+        file.filename.toLowerCase().includes(keyword) ||
+        (file.description && file.description.toLowerCase().includes(keyword))
+      );
+      renderPagination(filtered.length);
+      renderFileList(filtered);
+    }
+
+    fetch('donations.json?v=' + new Date().getTime())
+      .then(res => res.json())
+      .then(json => {
+        data = json;
+        update();
+      })
+      .catch(err => {
+        fileList.innerHTML = '<p style="color:red;">ไม่สามารถโหลดข้อมูลได้</p>';
+        console.error(err);
+      });
+
+    searchBox.addEventListener('input', () => {
+      currentPage = 1;
+      update();
+    });
   </script>
 </body>
 </html>
