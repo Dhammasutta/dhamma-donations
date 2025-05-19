@@ -10,13 +10,14 @@
   "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
 }
 
-  {
-    "title": "หนังสือสมถะวิปัสสนา",
-    "filename": "vipassana-guide.pdf",
-    "type": "pdf",
-    "filesize": "4.2 MB",
-    "url": "https://dhammasutta.github.io/dhamma-donations/files/vipassana-guide.pdf",
-    "donor": "ไม่ประสงค์ออกนาม"
-    "description": "หนังสืออธิบายปัฏฐานเบื้องต้น โดยอ้างอิงจากพระอภิธรรม"
-  }
+{
+  "title": "ปัฏฐานกถา",
+  "filename": "ปัฏฐานกถา.pdf",
+  "type": "pdf",
+  "filesize": "1.16 MB",
+  "pages": "168 หน้า",
+  "url": "https://raw.githubusercontent.com/Dhammasutta/dhamma-donations/main/file/pdf/3.%20ปัฏฐานกถา.pdf",
+  "donor": "ไม่ประสงค์ออกนาม",
+  "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
+}
 ]
