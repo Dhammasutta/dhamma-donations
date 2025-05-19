@@ -72,6 +72,7 @@
               <div class="file-meta">
                 <span><strong>ประเภท:</strong> ${file.type.toUpperCase()}</span>
                 <span><strong>ขนาด:</strong> ${file.filesize}</span>
+                ${file.pages ? `<span><strong>จำนวนหน้า:</strong> ${file.pages}</span>` : ''}
                 <span><strong>ผู้บริจาค:</strong> ${file.donor}</span>
               </div>
               <div class="download-link">
