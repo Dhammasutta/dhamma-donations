@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ไฟล์ธรรมะที่ได้รับบริจาค</title>
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: #fffef6;
+      color: #4e342e;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #6d4c41;
+      margin-bottom: 2rem;
+    }
+    .file-entry {
+      background: #f9f5ec;
+      border: 1px solid #d7ccc8;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .file-entry h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.2rem;
+      color: #3e2723;
+    }
+    .file-meta {
+      font-size: 0.95rem;
+      color: #5d4037;
+      margin-bottom: 0.5rem;
+    }
+    .file-meta span {
+      margin-right: 1rem;
+    }
+    .download-link a {
+      display: inline-block;
+      background: #6d4c41;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    .download-link a:hover {
+      background: #5d4037;
+    }
+  </style>
+</head>
+<body>
+  <h1>📁 ไฟล์ธรรมะที่ได้รับบริจาค</h1>
+  <div id="file-list">กำลังโหลดข้อมูล...</div>
+
+  <script>
+    const fileList = document.getElementById('file-list');
+
+    fetch('donations.json')
+      .then(response => response.json())
+      .then(data => {
+        fileList.innerHTML = '';
+        data.forEach(file => {
+          const icon = file.type === 'pdf' ? '📄' : file.type === 'mp3' ? '🎧' : '🗂️';
+          const html = `
+            <div class="file-entry">
+              <h3>${icon} ${file.title}</h3>
+              <div class="file-meta">
+                <span><strong>ประเภท:</strong> ${file.type.toUpperCase()}</span>
+                <span><strong>ขนาด:</strong> ${file.filesize}</span>
+                <span><strong>ผู้บริจาค:</strong> ${file.donor}</span>
+              </div>
+              <div class="download-link">
+                <a href="${file.url}" target="_blank">⬇️ ดาวน์โหลด</a>
+              </div>
+            </div>
+          `;
+          fileList.innerHTML += html;
+        });
+      })
+      .catch(error => {
+        fileList.innerHTML = '<p style="color:red;">ไม่สามารถโหลดข้อมูลได้</p>';
+        console.error('Error loading donations.json:', error);
+      });
+  </script>
+</body>
+</html>
