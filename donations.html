@@ -25,18 +25,24 @@
       border-radius: 8px;
       margin-bottom: 1.5rem;
     }
-    .file-entry h3 {
+    .file-entry h2 {
       margin: 0 0 0.5rem 0;
-      font-size: 1.1rem;
+      font-size: 1.25rem;
       color: #5d4037;
     }
     .file-meta {
       font-size: 0.95rem;
       color: #6d4c41;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
     }
     .file-meta span {
+      display: inline-block;
       margin-right: 1rem;
+    }
+    .file-description {
+      font-size: 0.95rem;
+      color: #4e342e;
+      margin-bottom: 0.5rem;
     }
     .download-link a {
       display: inline-block;
@@ -59,17 +65,23 @@
   <script>
     const fileList = document.getElementById('file-list');
 
-    fetch('donations.json')
-      .then(response => response.json())
+    fetch('donations.json?v=' + new Date().getTime())  // ป้องกัน cache
+      .then(response => {
+        if (!response.ok) throw new Error('โหลด JSON ไม่สำเร็จ');
+        return response.json();
+      })
       .then(data => {
         fileList.innerHTML = '';
+
         data.forEach(file => {
           const icon = file.type === 'pdf' ? '📄' : file.type === 'mp3' ? '🎧' : file.type === 'mp4' ? '🎞️' : '🗂️';
 
           const html = `
             <div class="file-entry">
-              <h3>${icon} ${file.title}</h3>
+              <h2>${icon} ${file.title}</h2>
+              <div class="file-description">${file.description || ''}</div>
               <div class="file-meta">
+                <span><strong>ไฟล์:</strong> ${file.filename}</span>
                 <span><strong>ประเภท:</strong> ${file.type.toUpperCase()}</span>
                 <span><strong>ขนาด:</strong> ${file.filesize}</span>
                 ${file.pages ? `<span><strong>จำนวนหน้า:</strong> ${file.pages}</span>` : ''}
@@ -84,8 +96,8 @@
         });
       })
       .catch(error => {
+        console.error('เกิดข้อผิดพลาด:', error);
         fileList.innerHTML = '<p style="color:red;">ไม่สามารถโหลดข้อมูลได้</p>';
-        console.error('Error loading donations.json:', error);
       });
   </script>
 </body>
