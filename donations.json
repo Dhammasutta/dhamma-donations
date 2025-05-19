@@ -4,8 +4,10 @@
     "filename": "ปัฏฐานกถา.pdf",
     "type": "pdf",
     "filesize": "1.16 MB",
-    "url": "https://dhammasutta.github.io/dhamma-donations/files/luangpor-ovad.mp3",
+     "pages": "168 หน้า",
+    "url": "https://github.com/Dhammasutta/dhamma-donations/blob/8a775a9973e2295229923d2aeadd08898102c9dc/file/pdf/3.%20%E0%B8%9B%E0%B8%B1%E0%B8%8F%E0%B8%90%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%96%E0%B8%B2.pdf",
     "donor": "ไม่ประสงค์ออกนาม"
+    "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
   },
   {
     "title": "หนังสือสมถะวิปัสสนา",
@@ -14,5 +16,6 @@
     "filesize": "4.2 MB",
     "url": "https://dhammasutta.github.io/dhamma-donations/files/vipassana-guide.pdf",
     "donor": "ไม่ประสงค์ออกนาม"
+    "description": "หนังสืออธิบายปัฏฐานเบื้องต้น โดยอ้างอิงจากพระอภิธรรม"
   }
 ]
