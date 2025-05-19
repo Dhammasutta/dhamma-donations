@@ -1,23 +1,12 @@
 [
- {
-  "title": "ปัฏฐานกถา",
-  "filename": "ปัฏฐานกถา.pdf",
-  "type": "pdf",
-  "filesize": "1.16 MB",
-  "pages": "168 หน้า",
-  "url": "https://raw.githubusercontent.com/Dhammasutta/dhamma-donations/main/file/pdf/3.%20ปัฏฐานกถา.pdf",
-  "donor": "ไม่ประสงค์ออกนาม",
-  "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
-}
-
-{
-  "title": "ปัฏฐานกถา",
-  "filename": "ปัฏฐานกถา.pdf",
-  "type": "pdf",
-  "filesize": "1.16 MB",
-  "pages": "168 หน้า",
-  "url": "https://raw.githubusercontent.com/Dhammasutta/dhamma-donations/main/file/pdf/3.%20ปัฏฐานกถา.pdf",
-  "donor": "ไม่ประสงค์ออกนาม",
-  "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
-}
+  {
+    "title": "ปัฏฐานกถา",
+    "filename": "ปัฏฐานกถา.pdf",
+    "type": "pdf",
+    "filesize": "1.16 MB",
+    "pages": "168 หน้า",
+    "url": "https://raw.githubusercontent.com/Dhammasutta/dhamma-donations/main/file/pdf/3.%20ปัฏฐานกถา.pdf",
+    "donor": "ไม่ประสงค์ออกนาม",
+    "description": "อธิบายปัจจัย ๒๔ โดยพิศดาร"
+  }
 ]
